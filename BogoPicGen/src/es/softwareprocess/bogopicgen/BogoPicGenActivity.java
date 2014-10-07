@@ -59,13 +59,14 @@ public class BogoPicGenActivity extends Activity {
 		setContentView(R.layout.main);
 
 		setBogoPic();
-
+		
 		ImageButton button = (ImageButton) findViewById(R.id.TakeAPhoto);
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View v) {
 				setBogoPic();
 			}
 		};
+		
 		button.setOnClickListener(listener);
 
 		Button acceptButton = (Button) findViewById(R.id.Accept);
@@ -90,21 +91,27 @@ public class BogoPicGenActivity extends Activity {
 
 	private void setBogoPic() {
 		// TODO: Show a toast with message "Generating Photo"
-		
+		Toast.makeText(this, "Generating photo", Toast.LENGTH_LONG).show();
 		
 		// TODO: Get a reference to the image button
-		
+		ImageButton button = (ImageButton) findViewById(R.id.TakeAPhoto);
 		
 		// Generate a bogopic
 		ourBMP = BogoPicGen.generateBitmap(400, 400);
 		
 		// TODO: Assign the bogopic to the button with setImageBitmap
-		
+		button.setImageBitmap(ourBMP);
 	}
 
 	// Call this to accept
 	private void processIntent(boolean cancel) {
 		Intent intent = getIntent();
+		
+		  Intent random_message = new Intent();
+		  random_message.putExtra("returnKey1", "Here is a random message.");
+		  setResult(RESULT_OK, random_message);
+		  super.finish();
+		
 		if (intent == null) {
 			return;
 		}
@@ -112,13 +119,19 @@ public class BogoPicGenActivity extends Activity {
 		try {	
 			if (intent.getExtras() != null) {
 				// TODO: If cancelled, show a toast, set result to RESULT_CANCELED, finish and return 
-				
+				if (cancel) {
+					Toast.makeText(this, "Photo canceled", Toast.LENGTH_LONG).show();
+					setResult(RESULT_CANCELED);
+					finish();
+					return;
+				}
 				
 				// If accepted save the picture
 				File intentPicture = getPicturePath(intent);
 				saveBMP(intentPicture, ourBMP);
 				
 				// TODO: set result to RESULT_OK
+				setResult(RESULT_OK);
 				
 			} else {
 				Toast.makeText(this, "Photo Cancelled: No Reciever?",
