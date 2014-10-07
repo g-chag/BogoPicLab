@@ -107,10 +107,11 @@ public class BogoPicGenActivity extends Activity {
 	private void processIntent(boolean cancel) {
 		Intent intent = getIntent();
 		
-		  Intent random_message = new Intent();
-		  random_message.putExtra("returnKey1", "Here is a random message.");
-		  setResult(RESULT_OK, random_message);
-		  super.finish();
+		//this information is from http://www.vogella.com/tutorials/AndroidIntent/article.html October 7, 2012
+		Intent random_message = new Intent();
+		random_message.putExtra("returnKey1", "Here is a random message.");
+		setResult(RESULT_OK, random_message);
+		super.finish();
 		
 		if (intent == null) {
 			return;
